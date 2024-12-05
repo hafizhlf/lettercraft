@@ -28,6 +28,15 @@ const languages = [
   { name: "Japanese" },
 ]
 
+const tones = [
+  { value: "professional", label: "Professional" },
+  { value: "friendly", label: "Friendly" },
+  { value: "confident", label: "Confident" },
+  { value: "enthusiastic", label: "Enthusiastic" },
+  { value: "formal", label: "Formal" },
+  { value: "casual", label: "Casual" },
+]
+
 export default function Lettercraft() {
   const [resume, setResume] = useState<File | null>(null)
   const [jobDescription, setJobDescription] = useState<File | null>(null)
@@ -36,7 +45,7 @@ export default function Lettercraft() {
   const [progress, setProgress] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
-  const [tone, setTone] = useState("Professional")
+  const [tone, setTone] = useState("professional")
   const [selectedLanguage, setSelectedLanguage] = useState("Indonesia")
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, type: "resume" | "jobDescription") => {
@@ -118,25 +127,25 @@ export default function Lettercraft() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4">
-      <Card className="w-full max-w-4xl shadow-2xl overflow-hidden">
-        <CardHeader className="space-y-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
-          <CardTitle className="text-4xl font-bold text-center flex items-center justify-center gap-2">
-            <Sparkles className="h-8 w-8" />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4 sm:p-6 md:p-8">
+      <Card className="w-full max-w-[calc(100vw-2rem)] sm:max-w-[calc(100vw-4rem)] md:max-w-4xl shadow-2xl overflow-hidden">
+        <CardHeader className="space-y-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 sm:p-6 md:p-8">
+          <CardTitle className="text-center text-2xl sm:text-3xl md:text-4xl font-bold flex items-center justify-center gap-2">
+            <Sparkles className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
             Lettercraft
           </CardTitle>
-          <CardDescription className="text-center text-xl text-blue-100">
+          <CardDescription className="text-lg sm:text-xl text-blue-100 text-center">
             Craft the perfect cover letter with AI
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-8 p-8">
+        <CardContent className="space-y-4 sm:space-y-6 md:space-y-8 p-4 sm:p-6 md:p-8">
           <Tabs defaultValue="upload" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="upload">Upload Files</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-2">
+              <TabsTrigger value="upload">Upload</TabsTrigger>
               <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             <TabsContent value="upload" className="space-y-8">
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid sm:grid-cols-2 gap-4 sm:gap-8">
                 <FileUpload
                   id="resume"
                   label="Upload Resume"
@@ -178,10 +187,11 @@ export default function Lettercraft() {
                     <SelectValue placeholder="Select a tone" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Professional">Professional</SelectItem>
-                    <SelectItem value="Friendly">Friendly</SelectItem>
-                    <SelectItem value="Confident">Confident</SelectItem>
-                    <SelectItem value="Enthusiastic">Enthusiastic</SelectItem>
+                    {tones.map((t) => (
+                      <SelectItem key={t.value} value={t.value}>
+                        {t.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -202,10 +212,10 @@ export default function Lettercraft() {
               </motion.div>
             )}
           </AnimatePresence>
-          <Button
-            onClick={generateCoverLetter}
-            disabled={isLoading || !resume || !jobDescription}
-            className="w-full text-lg py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+          <Button 
+            onClick={generateCoverLetter} 
+            disabled={isLoading || !resume || !jobDescription} 
+            className="w-full text-base sm:text-lg py-4 sm:py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg"
           >
             {isLoading ? (
               <>
@@ -233,9 +243,9 @@ export default function Lettercraft() {
                 exit={{ opacity: 0, y: 20 }}
                 className="space-y-4"
               >
-                <div className="flex justify-between items-center">
-                  <Label htmlFor="coverLetter" className="text-2xl font-semibold flex items-center gap-2">
-                    <Globe className="h-6 w-6" />
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+                  <Label htmlFor="coverLetter" className="text-xl sm:text-2xl font-semibold flex items-center gap-2">
+                    <Globe className="h-5 w-5 sm:h-6 sm:w-6" />
                     Your Crafted Cover Letter
                     <span className="text-sm font-normal text-gray-500">
                       ({languages.find(lang => lang.name === selectedLanguage)?.name}, {tone} tone)
