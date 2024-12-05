@@ -1,0 +1,9 @@
+services:
+  lettercraft:
+    environment:
+    - GEMINI_API_KEY=
+    build: .
+    container_name: lettercraft
+    ports:
+      - "3000:3000/tcp"
+    restart: unless-stopped
