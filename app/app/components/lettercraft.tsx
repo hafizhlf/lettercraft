@@ -43,7 +43,11 @@ export default function Lettercraft() {
     const file = event.target.files?.[0]
     if (file) {
       if (file.type === "application/pdf" || file.type.startsWith("image/")) {
-        type === "resume" ? setResume(file) : setJobDescription(file)
+        if (type === "resume") {
+          setResume(file)
+        } else {
+          setJobDescription(file)
+        }
         setError(null)
       } else {
         setError("Please upload a PDF or image file.")
@@ -100,7 +104,7 @@ export default function Lettercraft() {
       }
 
       xhr.send(formData)
-    } catch (err) {
+    } catch {
       setError("An error occurred while generating the cover letter. Please try again.")
       setIsLoading(false)
       setProgress(0)

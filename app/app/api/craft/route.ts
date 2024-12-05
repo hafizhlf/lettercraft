@@ -6,8 +6,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const formData = await req.formData()
     const resume = formData.get('resume') as File
     const jobDescription = formData.get('jobDescription') as File
-    const language = formData.get('language') as String
-    const tone = formData.get('tone') as String
+    const language = formData.get('language') as string
+    const tone = formData.get('tone') as string
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY
 
     if (!GEMINI_API_KEY) {
